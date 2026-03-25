@@ -33,4 +33,32 @@ class FilaPrioridadeTest {
         assertEquals(3, fila.fim.getPrioridade());
     }
 
+    @Test
+    void filaPrioridadeParaPilhaPreferencial(){
+        Pilha pilhaFinal = new Pilha();
+        Pilha pilhaAux = new Pilha();
+
+        fila.enqueue(tarefa1); // 3
+        fila.enqueue(tarefa2); // 9
+        fila.enqueue(tarefa3); // 6
+
+        // fila: 9 → 6 → 3
+
+        // 1ª passagem: fila → pilhaAux (inverte)
+        pilhaAux.push(fila.inicio); fila.dequeue();
+        pilhaAux.push(fila.inicio); fila.dequeue();
+        pilhaAux.push(fila.inicio); fila.dequeue();
+
+        // pilhaAux: topo → 3, 6, 9
+
+        // 2ª passagem: pilhaAux → pilhaFinal (inverte de novo)
+        pilhaFinal.push(pilhaAux.pop());
+        pilhaFinal.push(pilhaAux.pop());
+        pilhaFinal.push(pilhaAux.pop());
+
+        // pilhaFinal: topo → 9, 6, 3
+
+        assertEquals(9, pilhaFinal.topo.getPrioridade());
+    }
+
 }
