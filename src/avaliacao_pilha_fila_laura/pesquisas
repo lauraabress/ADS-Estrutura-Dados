@@ -1,0 +1,109 @@
+--- CHATGPT -----------------------
+
+1. "// Insere o pedido na posição correta da fila.
+public static void receberPedido(int idPedido, double valor, int prioridade){ }
+esse metóto que esta sendo pedido é basicamnete um enqueue de prioridade ne??
+esse aqui:
+public void enqueue(No no) { if (isEmpty()) { inicio = no; fim = no; return; } if (no.getPrioridade() > inicio.getPrioridade()) { no.proximo = inicio; inicio = no; return; } No atual = inicio; while (atual.proximo != null && atual.proximo.getPrioridade() >= no.getPrioridade()) { atual = atual.proximo; } no.proximo = atual.proximo; atual.proximo = no; if (no.proximo == null) { fim = no; } }
+não quero a resposta em código, quero que me ajude a entender"
+
+2. "mas esse enqueue que eu te enviei ele não só coloca no final ne? ele percorre e encaixa na posição correta ne?"
+
+3. "então se eu só copiar e colcar esse euqueue no método estara certo?"
+
+4. "receberPedido → cria o pedido enqueue → organiza na fila então daria de no meu método eu apenas chamar o euqueue"
+
+5. "package avaliacao_pilha_fila_laura;
+
+    public class GerenciadorLogistico {
+
+        FilaPrioridade filaPrioridade = new FilaPrioridade();
+
+        // Insere o pedido na posição correta da fila.
+        public static void receberPedido(int idPedido, double valor, int prioridade){
+            No novoNo = new No(idPedido, valor, prioridade, null);
+            filaPrioridade.enqueue();
+        }
+
+    }
+
+    pq n consigo chamra minha fila de prioridade aqui?"
+
+
+6. "    // Remove o pedido de maior prioridade da fila e o insere no topo da pilha de histórico
+        public void processarProximo(){
+            pilhaHistorico.push(filaPrioridade.dequeue());
+        }
+
+    pq n da certo? não ´assim que faz??"
+
+7. "vou te mandar meu dequeue e meu push public void dequeue() { if (isEmpty()) { return; } if (inicio == fim) { inicio = null; fim = null; } else { inicio = inicio.proximo; } } public void push(No no){ if (!isEmpty()){ no.proximo = topo; } topo = no; }"
+
+8. "ao invés de void eu mudo para No:"
+
+9. "assim:: :) public No dequeue() { if (isEmpty()) { return null; } if (inicio == fim) { inicio = null; fim = null; } else { inicio = inicio.proximo; } return inicio; }"
+
+10. "agora ta certinho né??
+
+     public No dequeue() {
+
+             No noExcluido = null;
+
+             if (isEmpty()) {
+                 return null;
+             }
+
+             if (inicio == fim) {
+                 noExcluido = inicio;
+                 inicio = null;
+                 fim = null;
+             } else {
+                 noExcluido = inicio;
+                 inicio = inicio.proximo;
+             }
+             return noExcluido;
+         }"
+
+11. "esses dois métodos que implementei estão certinhos??
+
+          // -- RELATÓRIOS E ESTATÍSTICAS
+
+         // Implementar um método que percorra as duas estruturas e retorne o Valor Total em Fretes (soma
+         // do que está na fila + o que está na pilha).
+         public double vlTotalFretePilhaFila() {
+
+             double vlFinal = 0;
+
+             No inicioFila = filaPrioridade.inicio;
+             while (inicioFila != null){
+                 vlFinal += inicioFila.getValorFrete();
+                 inicioFila = inicioFila.proximo;
+             }
+
+             No topoPilha = pilhaHistorico.topo;
+             while (topoPilha != null){
+                 vlFinal += topoPilha.getValorFrete();
+                 topoPilha = topoPilha.proximo;
+             }
+
+             return vlFinal;
+         }
+
+         // Implementar um método que retorne a quantidade total de pedidos aguardando na fila.
+         public int qtdPedidosFila(){
+
+             int qtdPedidos = 0;
+
+             No inicioFila = filaPrioridade.inicio;
+             while (inicioFila != null){
+                 qtdPedidos ++;
+                 inicioFila = inicioFila.proximo;
+             }
+             return qtdPedidos;
+         }"
+
+12. "no junit 5 quais são os tipos de assert que existem e o significado e um exemplo de ada um"
+
+--- MEUS CÓDIGOS FEITOS EM SALA -----------------------
+
+Usei muito os códigos que fizemos em sala :)
