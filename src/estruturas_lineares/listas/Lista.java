@@ -22,8 +22,8 @@ public class Lista {
 
     void addPosicao(No novoNo, int posicao){
 
-        if (posicao < 0 || posicao > qtd) {
-            return;
+        if (isEmpty()) {
+            pontoInicial = novoNo;
         }
 
         if (posicao == 0){
