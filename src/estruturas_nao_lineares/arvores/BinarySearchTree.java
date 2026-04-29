@@ -124,4 +124,200 @@ public class BinarySearchTree {
 
         return 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
     }
+
+    // --- BUSCA ---
+
+    public void search(int value) {
+        SearchResult result = searchRecursive(root, value, 0);
+
+        if (result == null) {
+            System.out.println("Valor " + value + " não encontrado na árvore.");
+        } else {
+            System.out.println("Valor encontrado: " + result.value);
+            System.out.println("Nível do nó:      " + result.level);
+            System.out.println("Altura do nó:     " + result.height);
+        }
+    }
+
+    private SearchResult searchRecursive(BstNode current, int value, int level) {
+        if (current == null) {
+            return null; // não encontrado
+        }
+
+        if (value == current.getValue()) {
+            return new SearchResult(current.getValue(), level, getHeight(current));
+        }
+
+        if (value < current.getValue()) {
+            return searchRecursive(current.getLeft(), value, level + 1);
+        } else {
+            return searchRecursive(current.getRight(), value, level + 1);
+        }
+    }
+
+    // --- REMOÇÃO ---
+
+    public void remove(int value) {
+        if (!contains(root, value)) {
+            System.out.println("Valor " + value + " não encontrado na árvore.");
+            return;
+        }
+
+        root = removeRecursive(root, value);
+        System.out.println("Valor " + value + " removido com sucesso.");
+    }
+
+    private boolean contains(BstNode current, int value) {
+        if (current == null) return false;
+        if (value == current.getValue()) return true;
+        if (value < current.getValue()) return contains(current.getLeft(), value);
+        return contains(current.getRight(), value);
+    }
+
+    private BstNode removeRecursive(BstNode current, int value) {
+        if (current == null) return null;
+
+        if (value < current.getValue()) {
+            current.setLeft(removeRecursive(current.getLeft(), value));
+
+        } else if (value > current.getValue()) {
+            current.setRight(removeRecursive(current.getRight(), value));
+
+        } else {
+            // Nó encontrado — 3 casos:
+
+            // Caso 1: nó folha (sem filhos)
+            if (current.getLeft() == null && current.getRight() == null) {
+                return null;
+            }
+
+            // Caso 2: nó com apenas um filho
+            if (current.getLeft() == null) return current.getRight();
+            if (current.getRight() == null) return current.getLeft();
+
+            // Caso 3: nó com dois filhos
+            // Substitui pelo menor valor da subárvore direita (sucessor in-order)
+            int smallestValue = findMin(current.getRight());
+            current.setValue(smallestValue);
+            current.setRight(removeRecursive(current.getRight(), smallestValue));
+        }
+
+        return current;
+    }
+
+    private int findMin(BstNode node) {
+        return node.getLeft() == null ? node.getValue() : findMin(node.getLeft());
+    }
+
+    public String caminho(TipoCaminho tipo) {
+        List<Integer> resultado = new ArrayList<>();
+
+        if (tipo == TipoCaminho.IN_ORDER) {
+            inOrder(root, resultado);
+        } else if (tipo == TipoCaminho.PRE_ORDER) {
+            preOrder(root, resultado);
+        } else if (tipo == TipoCaminho.POS_ORDER) {
+            posOrder(root, resultado);
+        }
+
+        return resultado.toString();
+    }
+
+    // Esquerda → Raiz → Direita
+    private void inOrder(BstNode node, List<Integer> resultado) {
+        if (node == null) return;
+        inOrder(node.getLeft(), resultado);
+        resultado.add(node.getValue());
+        inOrder(node.getRight(), resultado);
+    }
+
+    // Raiz → Esquerda → Direita
+    private void preOrder(BstNode node, List<Integer> resultado) {
+        if (node == null) return;
+        resultado.add(node.getValue());
+        preOrder(node.getLeft(), resultado);
+        preOrder(node.getRight(), resultado);
+    }
+
+    // Esquerda → Direita → Raiz
+    private void posOrder(BstNode node, List<Integer> resultado) {
+        if (node == null) return;
+        posOrder(node.getLeft(), resultado);
+        posOrder(node.getRight(), resultado);
+        resultado.add(node.getValue());
+    }
+
+    // --- BALANCEAMENTO ---
+
+    public void balance() {
+        root = balanceRecursive(root);
+        System.out.println("Árvore balanceada com sucesso.");
+    }
+
+    private BstNode balanceRecursive(BstNode node) {
+        if (node == null) return null;
+
+        // Primeiro balanceia os filhos recursivamente
+        node.setLeft(balanceRecursive(node.getLeft()));
+        node.setRight(balanceRecursive(node.getRight()));
+
+        // Depois verifica e corrige o nó atual
+        int fator = getFatorBalanceamento(node);
+
+        // Pesada para a ESQUERDA
+        if (fator > 1) {
+            // Caso Esquerda-Direita (dupla): rotaciona filho esquerdo para esquerda primeiro
+            if (getFatorBalanceamento(node.getLeft()) < 0) {
+                node.setLeft(rotacionarEsquerda(node.getLeft()));
+            }
+            // Rotação simples para a direita
+            return rotacionarDireita(node);
+        }
+
+        // Pesada para a DIREITA
+        if (fator < -1) {
+            // Caso Direita-Esquerda (dupla): rotaciona filho direito para direita primeiro
+            if (getFatorBalanceamento(node.getRight()) > 0) {
+                node.setRight(rotacionarDireita(node.getRight()));
+            }
+            // Rotação simples para a esquerda
+            return rotacionarEsquerda(node);
+        }
+
+        return node; // já está balanceado
+    }
+
+    private int getFatorBalanceamento(BstNode node) {
+        return getHeight(node.getLeft()) - getHeight(node.getRight());
+    }
+    //      y                x
+    //     / \              / \
+    //    x   T3    →     T1   y
+    //   / \                  / \
+    //  T1  T2              T2  T3
+    private BstNode rotacionarDireita(BstNode y) {
+        BstNode x = y.getLeft();
+        BstNode T2 = x.getRight();
+
+        x.setRight(y);
+        y.setLeft(T2);
+
+        return x;
+    }
+
+    //    x                  y
+    //   / \                / \
+    //  T1   y     →       x   T3
+    //      / \           / \
+    //     T2  T3        T1  T2
+    private BstNode rotacionarEsquerda(BstNode x) {
+        BstNode y = x.getRight();
+        BstNode T2 = y.getLeft();
+
+        y.setLeft(x);
+        x.setRight(T2);
+
+        return y;
+    }
+
 }
