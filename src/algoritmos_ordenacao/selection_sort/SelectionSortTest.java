@@ -53,27 +53,27 @@ class SelectionSortTest {
 //        System.out.println("50 - inverso   | " + (fim - inicio) + " ms");
 //    }
 //
-//    @Test
-//    void testarTamanho500() {
-//        long inicio, fim;
-//
-//        System.out.println("\n=== Tamanho 500 ===");
-//
-//        inicio = System.currentTimeMillis();
-//        selectionSort.ordernar(v21);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - ordenado  | " + (fim - inicio) + " ms");
-//
-//        inicio = System.currentTimeMillis();
-//        selectionSort.ordernar(v22);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - aleatorio | " + (fim - inicio) + " ms");
-//
-//        inicio = System.currentTimeMillis();
-//        selectionSort.ordernar(v23);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - inverso   | " + (fim - inicio) + " ms");
-//    }
+    @Test
+    void testarTamanho500() {
+        long inicio, fim;
+
+        System.out.println("\n=== Tamanho 500 ===");
+
+        inicio = System.currentTimeMillis();
+        selectionSort.ordernar(v21);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - ordenado  | " + (fim - inicio) + " ms");
+
+        inicio = System.currentTimeMillis();
+        selectionSort.ordernar(v22);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - aleatorio | " + (fim - inicio) + " ms");
+
+        inicio = System.currentTimeMillis();
+        selectionSort.ordernar(v23);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - inverso   | " + (fim - inicio) + " ms");
+    }
 
     @Test
     @Timeout(value = 10, unit = TimeUnit.MINUTES)

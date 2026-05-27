@@ -57,30 +57,30 @@ class BubbleSortTest {
 //        }
 //    }
 //
-//    @Test
-//    void testarTamanho500() {
-//        long inicio, fim;
-//
-//        System.out.println("\n=== Tamanho 500 ===");
-//
-//        inicio = System.currentTimeMillis();
-//        bubbleSort.ordernar(v21);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - ordenado  | " + (fim - inicio) + " ms");
-//
-//        inicio = System.currentTimeMillis();
-//        bubbleSort.ordernar(v22);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - aleatorio | " + (fim - inicio) + " ms");
-//
-//        inicio = System.currentTimeMillis();
-//        int[] ord = bubbleSort.ordernar(v23);
-//        fim = System.currentTimeMillis();
-//        System.out.println("500 - inverso   | " + (fim - inicio) + " ms");
-//        for (int i = 0; i < 500; i++){
-//            assertEquals(i, ord[i]);
-//        }
-//    }
+    @Test
+    void testarTamanho500() {
+        long inicio, fim;
+
+        System.out.println("\n=== Tamanho 500 ===");
+
+        inicio = System.currentTimeMillis();
+        bubbleSort.ordernar(v21);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - ordenado  | " + (fim - inicio) + " ms");
+
+        inicio = System.currentTimeMillis();
+        bubbleSort.ordernar(v22);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - aleatorio | " + (fim - inicio) + " ms");
+
+        inicio = System.currentTimeMillis();
+        int[] ord = bubbleSort.ordernar(v23);
+        fim = System.currentTimeMillis();
+        System.out.println("500 - inverso   | " + (fim - inicio) + " ms");
+        for (int i = 0; i < 500; i++){
+            assertEquals(i, ord[i]);
+        }
+    }
 
     @Test
     @Timeout(value = 10, unit = TimeUnit.MINUTES)
